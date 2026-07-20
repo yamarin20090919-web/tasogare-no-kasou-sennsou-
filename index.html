@@ -297,6 +297,94 @@
       height: 1.2em;
       font-size: 0.95rem;
     }
+    #username-input {
+      padding: 12px 20px;
+      font-size: 16px;
+      border: 2px solid #e94560;
+      border-radius: 8px;
+      background: #fff;
+      color: #222;
+      text-align: center;
+      width: 220px;
+      max-width: 90%;
+      outline: none;
+      margin-bottom: 10px;
+    }
+    #username-input:focus {
+      box-shadow: 0 0 10px rgba(233, 69, 96, 0.4);
+    }
+
+    /* User Notes */
+    .user-note {
+      background: #fff8e1;
+      border-left: 4px solid #ff9800;
+      padding: 6px 12px;
+      margin: 0.3em 0 0.3em 1em;
+      font-size: 0.92rem;
+      color: #e65100;
+      border-radius: 0 6px 6px 0;
+      position: relative;
+    }
+    .user-note .note-meta {
+      font-size: 0.75rem;
+      color: #999;
+      margin-bottom: 2px;
+    }
+    .user-note .note-delete {
+      position: absolute;
+      top: 4px;
+      right: 8px;
+      cursor: pointer;
+      color: #e94560;
+      font-weight: bold;
+      font-size: 1rem;
+      line-height: 1;
+    }
+    .user-note .note-delete:hover {
+      color: #c0392b;
+    }
+    body.hide-notes .user-note {
+      display: none !important;
+    }
+    .line.note-target {
+      outline: 2px dashed #e94560;
+      background: rgba(233, 69, 96, 0.08);
+      cursor: pointer;
+    }
+    #note-mode-indicator {
+      display: none;
+      background: #e94560;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+    #note-mode-indicator.active {
+      display: inline-block;
+    }
+    #user-display {
+      font-size: 0.85rem;
+      color: #666;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+    #toolbar .note-btn {
+      background: #e94560;
+      color: white;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+    #toolbar .note-btn:hover {
+      background: #d6336c;
+    }
+    #toolbar .note-btn.active {
+      background: #2ecc71;
+    }
 
   </style>
 </head>
@@ -305,12 +393,11 @@
   <!-- Password Lock -->
   <div id="password-overlay">
     <h1>黄昏の仮想戦争</h1>
-    <p style="margin-bottom:1rem;opacity:0.8;">パスワードを入力してください</p>
-    <input type="password" id="pw-input" placeholder="パスワード" autocomplete="off">
+    <p style="margin-bottom:1rem;opacity:0.8;">ユーザー名とパスワードを入力してください</p>
+    <input type="text" id="username-input" placeholder="ユーザー名" autocomplete="username" style="margin-bottom:10px; display:block;">
+    <input type="password" id="pw-input" placeholder="パスワード" autocomplete="current-password">
     <button onclick="checkPassword()">入場</button>
     <div id="password-error"></div>
-  </div>
-
   </div>
 
   <!-- Toolbar -->
@@ -330,6 +417,12 @@
     <label><input type="checkbox" data-char="other"> <span class="color-dot" style="background:#fd79a8"></span> その他</label>
     <span class="sep"></span>
     <label><input type="checkbox" id="hide-stage"> 劇中指示を非表示</label>
+    <label><input type="checkbox" id="hide-notes"> メモを非表示</label>
+    <span class="sep"></span>
+    <button class="note-btn" id="btn-note-mode" onclick="toggleNoteMode()">メモ挿入モード</button>
+    <button class="note-btn" id="btn-save-notes" onclick="saveNotes()">メモ保存</button>
+    <span id="note-mode-indicator">クリックでメモ追加中...</span>
+    <span id="user-display"></span>
   </div>
 
   <!-- Main Script Content -->
@@ -384,7 +477,7 @@
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「おまけだ！」</span></div>
     <div class="line stage">　Bは倒れ、腹部に三発鉛玉を撃ち込む。それを見てマテバはゆっくりと近ずく。</div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「逮捕が目的だ？生きてる？そいつ？」</span></div>
-    <div class="line"><span class="dialogue char-arisaka">＃アリサカ「案外タフだな。まだ脳波が送られてきてある。寝てるだけだ。」</span></div>
+    <div class="line"><span class="dialogue char-arisaka">＃アリサカ「案外タフだな。まだ脳波が送られてきている。寝てるだけだ。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「そうか……ならよかった。やめてくれって、脳天狙いの攻撃は。見てる方はヒヤヒヤする」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「自分が死ぬか相手が死ぬかをコイントスと優しさで決める奴はいないだろ？」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「そりゃそうなんだが……」</span></div>
@@ -436,7 +529,7 @@
     <div class="line"><span class="dialogue char-kacho">＃課長「イグザクトリー！そういうことだ。ネモ！映像投影を」</span></div>
     <div class="line"><span class="dialogue char-nemo">＃ネモ『はいはーい！任せてねぇー！』</span></div>
     <div class="line stage">上手から四角形の小型機械が入ってくると、中央の壁に向けて、投影を行う。投影された写真には倒れた人物が映し出され、頭部から血が出ていることが確認できる。</div>
-    <div class="line"><span class="dialogue char-arisaka">＃アリサカ「いいなポージングだな。構図が好みだ。芸術はよくわからんがこれがアートってやつか？」</span></div>
+    <div class="line"><span class="dialogue char-arisaka">＃アリサカ「いいポージングだな。構図が好みだ。芸術はよくわからんがこれがアートってやつか？」</span></div>
     <div class="line"><span class="dialogue char-kacho">＃課長「悪くない感性だ。この男は一週間前に政府の重要施設で死んでいた外国人だ。」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「また新しい連邦のスパイか。ここに回ってくる案件で頭がハッピーまみれな観光客の身辺調査ってことではないな。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「それで？何を調べる？そいつの身元？日本でどんなファミレスに行ったか？そこで何を食ったか？俺はマクドドナルドが好きだ。あそこはファミレスに入んのか？」</span></div>
@@ -485,8 +578,8 @@
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「ではそろそろ行こうか。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「じゃあな！ネモ行ってくるぜ！」</span></div>
     <div class="line"><span class="dialogue char-nemo">＃ネモ「では！アリサカさんとスギウラさんもお気をつけて！」</span></div>
-    <div class="line stage">＃ネモが上手から出ていく。3人は中央の機械の扉を開き、中へ入る。扉を閉めると再び煙が吹き出し、照明が消る。</div>
-    <div class="line"><span class="dialogue char-nexus">＃ネクサス「認証開始。軍事警察　ネクサス治安維持部　第1課、マテバ捜査官、アリサカ捜査官、スギウラ捜査官の脳波と照合照合しました。国家ネクサス特例法に基づき、捜査官の銃器、その他武装の携帯を許可します。精神機能の主用部分を転送します。」</span></div>
+    <div class="line stage">＃ネモが上手から出ていく。3人は中央の機械の扉を開き、中へ入る。扉を閉めると再び煙が吹き出し、照明が消える。</div>
+    <div class="line"><span class="dialogue char-nexus">＃ネクサス「認証開始。軍事警察　ネクサス治安維持部　第1課、マテバ捜査官、アリサカ捜査官、スギウラ捜査官の脳波と照合しました。国家ネクサス特例法に基づき、捜査官の銃器、その他武装の携帯を許可します。精神機能の主用部分を転送します。」</span></div>
     <div class="line stage">暗転し緑の光が飛び散る。それも消える。</div>
     <div class="line"><span class="dialogue char-nexus">＃ネクサス「……ようこそ仮想空間ネットワーク　ネクサスへ。我々はあなた方を歓迎します。」</span></div>
 
@@ -514,7 +607,7 @@
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「残念なことにそのうちの1人は私が削っちまてる。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「じゃ、クールなところを見せなきゃな。ここはまかせてくれ。」</span></div>
     <div class="line"><span class="dialogue char-guard-a">＃警備員A「だからお前ら何者だ！？」</span></div>
-    <div class="line"><span class="dialogue char-mateba">＃マテバ「邪魔すんな！耳と目に拳詰まってんのか？！今先輩と喋ってんだろうが！」</span></div>
+    <div class="line"><span class="dialogue char-mateba">＃マテバ「邪魔すんな！耳と目にくそ詰まってんのか？！今先輩と喋ってんだろうが！」</span></div>
     <div class="line stage">マテバがAに射撃、Aがマテバに射撃</div>
     <div class="line stage">マテバがローリング、アリサカが姿勢を屈めながら走り遮蔽物に隠れる。</div>
     <div class="line stage">Aは肩に被弾を負い、倒れる。B、Cが遮蔽物に隠れライフルを撃つ。マテバが顔だけだし射撃、Bに当てる。そのご再び遮蔽物に隠れてリロード。遮蔽物から腕だけ出して威嚇射撃、相手の射撃音が聞こえなくなったところ、遮蔽物から飛び出し、警棒で頭部に打撃。</div>
@@ -524,7 +617,7 @@
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「甘いな。やはりオモチャなんてのは使うもんじゃない。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「た、助かった。ありがとう。」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「ま、アリじゃないか？食事ぐらいは気が乗ったら構わんよ。」</span></div>
-    <div class="line"><span class="dialogue char-mateba">＃マテバ「マジかろよ！？今日ならギリ、テンションが天国突き抜けるぜ！」</span></div>
+    <div class="line"><span class="dialogue char-mateba">＃マテバ「マジかよ！？今日ならギリ、テンションが天国突き抜けるぜ！」</span></div>
     <div class="line stage">『ジリリリリリリリリリっ』と音が鳴る。</div>
     <div class="line stage">　マテバがコードを腕の装置に差し込む。</div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「こっちは終わった。見えてるか？」</span></div>
@@ -820,7 +913,7 @@
     <div class="line"><span class="dialogue char-mateba">＃マテバ「……………大人しく捕まるというのは……」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「それは無理な話だな…」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「リアルでのゴタゴタが終われば、私は精神転移装置から無理やり引き出される。」</span></div>
-    <div class="line"><span class="dialogue char-mateba">＃マテバ「だから、今自主をすれば罪は軽く…………あっ、」</span></div>
+    <div class="line"><span class="dialogue char-mateba">＃マテバ「だから、今自首をすれば罪は軽く…………あっ、」</span></div>
     <div class="line stage">目を逸らす。</div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「なんだわかっているじゃないか。これはシンプルな紛争誘致罪、大犯罪だ。大怪盗より有名人。どう足掻こうと死刑は免れられない。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「……何が言いたい……」</span></div>
@@ -886,7 +979,7 @@
     <div class="line"><span class="dialogue char-kacho">＃課長「というわけだ。ネクサスにスパイがいたと分かれば、国民に心理的不安が広がる。故に今回の件でアリサカはネクサス内の犯罪に巻き込まれた事として処理する。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「……」</span></div>
     <div class="line"><span class="dialogue char-kacho">＃課長「納得がいかんという顔をしているな。」</span></div>
-    <div class="line"><span class="dialogue char-mateba">＃マテバ「いえ、むしろなんとなくそんな風になるだろうと、わかってたよ。」</span></div>
+    <div class="line"><span class="dialogue char-mateba">＃マテバ「いえ、むしろなんとなくそんな風になるだろうと、わかってましたよ。」</span></div>
     <div class="line"><span class="dialogue char-kacho">＃課長「……そうか。ま、どのみち今日からお前が実動部隊の隊長だ。核戦争回避という成果のおかげで、総理は資金と人員を増やすと約束してくれた。気に入らんだろうが受け入れろ。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「わかってる。俺は俺のために戦う。そのためにはなんでも使う。覚悟は決めた。俺だけのためのふざけた覚悟をな。」</span></div>
     <div class="line"><span class="dialogue char-kacho">＃課長「そう、彼女と約束したんだな。」</span></div>
@@ -922,24 +1015,50 @@
   </div>
 
   <script>
+    let currentUser = null;
+    let notes = []; // {id, afterLineId, text, color, created}
+    let noteMode = false;
+    let lineIdCounter = 0;
 
     function checkPassword() {
-      const input = document.getElementById('pw-input');
+      const pw = document.getElementById('pw-input');
+      const uname = document.getElementById('username-input');
       const error = document.getElementById('password-error');
-      if (input.value === '2c') {
+      const username = (uname.value || '').trim();
+      if (!username) {
+        error.textContent = 'ユーザー名を入力してください';
+        uname.focus();
+        return;
+      }
+      if (pw.value === '2c') {
+        currentUser = username;
         document.getElementById('password-overlay').classList.add('hidden');
         document.getElementById('main-content').classList.add('visible');
+        document.getElementById('user-display').textContent = 'ユーザー: ' + currentUser;
+        initLines();
+        loadNotes();
+        renderNotes();
       } else {
         error.textContent = 'パスワードが違います';
-        input.value = '';
-        input.focus();
+        pw.value = '';
+        pw.focus();
       }
     }
     document.getElementById('pw-input').addEventListener('keydown', function(e) {
       if (e.key === 'Enter') checkPassword();
     });
+    document.getElementById('username-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') document.getElementById('pw-input').focus();
+    });
 
-    
+    // Assign ids to all lines
+    function initLines() {
+      document.querySelectorAll('#main-content .line').forEach((el, idx) => {
+        if (!el.dataset.lineId) {
+          el.dataset.lineId = 'L' + (idx + 1);
+        }
+      });
+    }
 
     // Character color toggles
     document.querySelectorAll('#toolbar input[data-char]').forEach(cb => {
@@ -961,6 +1080,119 @@
         document.body.classList.remove('hide-stage');
       }
     });
+
+    // Notes hide toggle
+    document.getElementById('hide-notes').addEventListener('change', function() {
+      if (this.checked) {
+        document.body.classList.add('hide-notes');
+      } else {
+        document.body.classList.remove('hide-notes');
+      }
+    });
+
+    function getStorageKey() {
+      return 'tasogare_notes_' + (currentUser || 'anonymous');
+    }
+
+    function loadNotes() {
+      try {
+        const raw = localStorage.getItem(getStorageKey());
+        notes = raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        notes = [];
+      }
+    }
+
+    function saveNotes() {
+      if (!currentUser) return;
+      try {
+        localStorage.setItem(getStorageKey(), JSON.stringify(notes));
+        alert('メモを保存しました（ユーザー: ' + currentUser + '）');
+      } catch (e) {
+        alert('保存に失敗しました: ' + e.message);
+      }
+    }
+
+    function renderNotes() {
+      // Remove existing note elements
+      document.querySelectorAll('.user-note').forEach(n => n.remove());
+      notes.forEach(note => {
+        const target = document.querySelector('[data-line-id="' + note.afterLineId + '"]');
+        if (target) {
+          const noteEl = document.createElement('div');
+          noteEl.className = 'line user-note';
+          noteEl.dataset.noteId = note.id;
+          noteEl.style.borderLeftColor = note.color || '#ff9800';
+          noteEl.style.color = note.color || '#e65100';
+          noteEl.innerHTML = '<div class="note-meta">📝 ' + (note.created || '') + ' by ' + currentUser + '</div>' +
+            escapeHtml(note.text) +
+            '<span class="note-delete" title="削除" onclick="deleteNote(\'' + note.id + '\')">×</span>';
+          target.after(noteEl);
+        }
+      });
+    }
+
+    function escapeHtml(text) {
+      const d = document.createElement('div');
+      d.textContent = text;
+      return d.innerHTML;
+    }
+
+    function toggleNoteMode() {
+      noteMode = !noteMode;
+      const btn = document.getElementById('btn-note-mode');
+      const ind = document.getElementById('note-mode-indicator');
+      if (noteMode) {
+        btn.classList.add('active');
+        btn.textContent = 'メモ挿入モード ON';
+        ind.classList.add('active');
+        document.querySelectorAll('#main-content .line:not(.user-note)').forEach(el => {
+          el.classList.add('note-target');
+          el.onclick = onLineClickForNote;
+        });
+      } else {
+        btn.classList.remove('active');
+        btn.textContent = 'メモ挿入モード';
+        ind.classList.remove('active');
+        document.querySelectorAll('.note-target').forEach(el => {
+          el.classList.remove('note-target');
+          el.onclick = null;
+        });
+      }
+    }
+
+    function onLineClickForNote(e) {
+      if (!noteMode) return;
+      e.stopPropagation();
+      const line = e.currentTarget;
+      const lineId = line.dataset.lineId;
+      const text = prompt('この行の後にメモを挿入します。メモ内容を入力してください：');
+      if (text === null || text.trim() === '') return;
+      const color = prompt('メモの色を入力（例: #e65100 または orange）:', '#e65100') || '#e65100';
+      const note = {
+        id: 'N' + Date.now() + Math.random().toString(36).slice(2, 6),
+        afterLineId: lineId,
+        text: text.trim(),
+        color: color,
+        created: new Date().toLocaleString('ja-JP')
+      };
+      notes.push(note);
+      renderNotes();
+      // auto save
+      try { localStorage.setItem(getStorageKey(), JSON.stringify(notes)); } catch(e){}
+    }
+
+    function deleteNote(id) {
+      if (!confirm('このメモを削除しますか？')) return;
+      notes = notes.filter(n => n.id !== id);
+      renderNotes();
+      try { localStorage.setItem(getStorageKey(), JSON.stringify(notes)); } catch(e){}
+    }
+
+    // Expose for onclick
+    window.deleteNote = deleteNote;
+    window.toggleNoteMode = toggleNoteMode;
+    window.saveNotes = saveNotes;
   </script>
 </body>
 </html>
