@@ -346,6 +346,25 @@
     body.hide-notes .user-note {
       display: none !important;
     }
+    .user-note.global-note {
+      background: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      color: #0d47a1;
+    }
+    .user-note.global-note .note-meta {
+      color: #1565c0;
+      font-weight: bold;
+    }
+    .user-note .note-badge {
+      display: inline-block;
+      background: #1976d2;
+      color: white;
+      font-size: 0.7rem;
+      padding: 1px 6px;
+      border-radius: 3px;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
     .line.note-target {
       outline: 2px dashed #e94560;
       background: rgba(233, 69, 96, 0.08);
@@ -386,6 +405,68 @@
       background: #2ecc71;
     }
 
+  
+    /* Bottom bar */
+    #bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background: #f8f9fa;
+      border-top: 2px solid #e94560;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      z-index: 900;
+      box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+    }
+    .bottom-icon {
+      width: 44px;
+      height: 44px;
+      border: none;
+      background: transparent;
+      color: #555;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .bottom-icon:hover, .bottom-icon.active {
+      background: #e94560;
+      color: white;
+    }
+    .chapter-nav {
+      display: flex;
+      gap: 6px;
+    }
+    .ch-btn {
+      width: 36px;
+      height: 36px;
+      border: 2px solid #e94560;
+      background: white;
+      color: #e94560;
+      border-radius: 50%;
+      font-weight: bold;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .ch-btn:hover, .ch-btn:active {
+      background: #e94560;
+      color: white;
+    }
+    #main-content {
+      padding-bottom: 80px !important;
+    }
+    @media (max-width: 480px) {
+      .ch-btn { width: 32px; height: 32px; font-size: 0.85rem; }
+      #bottom-bar { height: 52px; padding: 0 8px; }
+    }
+
   </style>
 </head>
 <body>
@@ -419,38 +500,34 @@
     <label><input type="checkbox" id="hide-stage"> 劇中指示を非表示</label>
     <label><input type="checkbox" id="hide-notes"> メモを非表示</label>
     <span class="sep"></span>
-    <button class="note-btn" id="btn-note-mode" onclick="toggleNoteMode()">メモ挿入モード</button>
-    <button class="note-btn" id="btn-save-notes" onclick="saveNotes()">メモ保存</button>
-    <span id="note-mode-indicator">クリックでメモ追加中...</span>
     <span id="user-display"></span>
   </div>
 
   <!-- Main Script Content -->
-  <div id="main-content">
-    <h1 class="script-title">黄昏の仮想戦争</h1>
+    <div id="main-content">
+    <h1 class="script-title" id="ch1">黄昏の仮想戦争</h1>
 
-    <div class="line stage">ナレーション「2084年、日本。人々が現実から、VR技術の進歩により生まれた仮想世界、ネクサスに住みかを移し始めた。そんなあるかもしれない未来。…ネクサスでは、多くのサイバー犯罪が善良な市民を脅かしており、彼らは助けを求める…悪があれば正義現れるのが必然。とある組織は市民を助けるためネクサス内を今日も駆け回る。彼らはネクサスのヒーロー、Self NEXAS Guard部隊、通称　SNGという。」</div>
-
-    <div class="line stage">　中央にスポットライトが当たり、</div>
-    <div class="line stage">　部屋の中心に2人の怪しい人物が会話しているのを目撃する。</div>
+    <div class="line"><span class="dialogue char-other">ナレーション「2084年、日本。人々が現実から、VR技術の進歩により生まれた仮想世界、ネクサスに住みかを移し始めた。そんなあるかもしれない未来。…ネクサスでは、多くのサイバー犯罪が善良な市民を脅かしており、彼らは助けを求める…悪があれば正義現れるのが必然。とある組織は市民を助けるためネクサス内を今日も駆け回る。彼らはネクサスのヒーロー、Self NEXAS Guard部隊、通称　SNGという。」</span></div>
+    <div class="line stage">中央にスポットライトが当たり、</div>
+    <div class="line stage">部屋の中心に2人の怪しい人物が会話しているのを目撃する。</div>
     <div class="line stage">怪しい男AがBを捲し立てているが、腕に赤いターフを巻き付け何かのワッペンをつけている男、Bは何も言わない。答えない。</div>
-    <div class="line stage">　Aが驚いた顔と声を浮かべ、後ろへ飛び退く</div>
+    <div class="line stage">Aが驚いた顔と声を浮かべ、後ろへ飛び退く</div>
     <div class="line"><span class="dialogue char-suspicious-a">＃怪しい人物A「貴様！何処の！……」</span></div>
     <div class="line stage">怪しい人物Bが懐から銃を取り出しAに向かって二発撃つ。一つは腹に、もう一発は頭に穴を開ける。</div>
-    <div class="line stage">　Aは撃たれた衝撃と飛んだ勢いで舞台裏へ倒れながら下がる。（アクションシーンは後日決めますがイメージとして作っておきます。）</div>
-    <div class="line"><span class="dialogue char-suspicious-b">＃怪しい人物B「フーーーーぅーーーーーー。やっとだ。この瞬間、このタイミング、この時のための9年間だ。後はあの人に……」</span></div>
+    <div class="line stage">Aは撃たれた衝撃と飛んだ勢いで舞台裏へ倒れながら下がる。（アクションシーンは後日決めますがイメージとして作っておきます。）</div>
+    <div class="line"><span class="dialogue char-suspicious-b">＃怪しい人物B「フーーーーーーーーーー。やっとだ。この瞬間、このタイミング、この時のための9年間だ。後はあの人に……」</span></div>
     <div class="line stage">長く呼吸を吐いたり吸ったりする。</div>
-    <div class="line stage">　怪しい人物Bが拳銃をホルスターに戻すと、客席横のドアが開く。そこから2人の人物が入ってくる。</div>
+    <div class="line stage">怪しい人物Bが拳銃をホルスターに戻すと、客席横のドアが開く。そこから2人の人物が入ってくる。</div>
     <div class="line"><span class="dialogue char-suspicious-b">＃怪しい人物B「なっ……誰だ？！」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「アリサカパイセン！あとでファミレスだけでも一緒にどう？ほらサイゲリアとか、あそこマルゲリータがクソうまいんだ。俺が払うから。」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「ダメだ。私がお前なら口を閉じてる。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「黙るからダメ？」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「さぁ？どうしようか？」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「えぇ？そりゃないって」</span></div>
-    <div class="line stage">　2人がBにゆっくりと歩みを進める。</div>
+    <div class="line stage">2人がBにゆっくりと歩みを進める。</div>
     <div class="line"><span class="dialogue char-suspicious-b">＃怪しい人物B「ち、近づくな！なんだお前ら！……」</span></div>
-    <div class="line stage">　銃口を2人に向ける。2人は歩みをとめる。</div>
-    <div class="line stage">　マテバ「……」アリサカ「……」</div>
+    <div class="line stage">銃口を2人に向ける。2人は歩みをとめる。</div>
+    <div class="line"><span class="dialogue char-mateba">マテバ「……」アリサカ「……」</span></div>
     <div class="line"><span class="dialogue char-suspicious-b">＃怪しい人物B「そ、そうだ。……そのまま下がれ。」</span></div>
     <div class="line"><span class="dialogue char-suspicious-b">＃怪しい人物B「俺にはまだ……お前たち。SNGか！？」</span></div>
     <div class="line"><span class="dialogue char-suspicious-b">＃怪しい人物B「それも犯罪者殺しのアリサカだな！」</span></div>
@@ -459,24 +536,24 @@
     <div class="line"><span class="dialogue char-mateba">＃マテバ「…俺は！？俺にはクールでイケてる二つ名はない感じ？！」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「残念だったな、マテバ。」</span></div>
     <div class="line"><span class="dialogue char-suspicious-b">＃B「くそ何が目的だ！？」</span></div>
-    <div class="line"><span class="dialogue char-arisaka">＃アリサカ「目的？何を今更、私たちは貴様らのような犯罪者を取り締まるSNGだぜ？お前たちのような不届者から国民を守る正義そのものだ！」</span></div>
+    <div class="line"><span class="dialogue char-arisaka">＃アリサカ「目的？何を今更、私たちは貴様らのような犯罪者を取り締まるSNGだぜ？お前たちのような不届き者から国民を守る正義そのものだ！」</span></div>
     <div class="line"><span class="dialogue char-suspicious-b">＃怪しい人物B「国家権力の犬が！腑抜けたことを抜かすな！貴様のようなバカ女が何を今更？正義？ふざけるな！」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「誰に向かって馬鹿と言ったテメェ！！」</span></div>
     <div class="line stage">Bは2人に対し、マテバはBに対し銃を懐から取り出し、相手に向ける。Bが先に発砲、それをアリサカが避ける。</div>
-    <div class="line stage">　2人はBに素早く突っ込む。Bは更に2人に向けて発砲、しかし当たらず2人との距離は縮まる。Bは後ろへ飛び退き、銃を乱射する。</div>
-    <div class="line stage">　するとドラム缶（舞台上の中型の置物）に爆発が（遠隔で爆竹を作動させても、スモークと爆発音での再現でもOK）起きる。</div>
+    <div class="line stage">2人はBに素早く突っ込む。Bは更に2人に向けて発砲、しかし当たらず2人との距離は縮まる。Bは後ろへ飛び退き、銃を乱射する。</div>
+    <div class="line stage">するとドラム缶（舞台上の中型の置物）に爆発が（遠隔で爆竹を作動させても、スモークと爆発音での再現でもOK）起きる。</div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「アイツまるで赤ん坊だぞ。とはいえ集中を切らすなよ」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「当たり前だ！」</span></div>
-    <div class="line stage">　2人もホルダーから銃を取り出し発砲、Bの肩に命中したものの致命傷には至らず、再びBも発砲。</div>
-    <div class="line stage">　2人は物陰（置物）に隠れる。</div>
+    <div class="line stage">2人もホルダーから銃を取り出し発砲、Bの肩に命中したものの致命傷には至らず、再びBも発砲。</div>
+    <div class="line stage">2人は物陰（置物）に隠れる。</div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「マテバ！仕掛けるぞ！」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「あいよ！いつでも！」</span></div>
-    <div class="line stage">　マテバが物陰から身を乗り出し、Bの頭上にあるパイプに向かって勢いよく弾丸を発射する。頭上のパイプに破裂音がし、穴からスモークが溢れBの視界を塞ぐ。その瞬間にアリサカが飛び出し、Bに向かって突入する。</div>
+    <div class="line stage">マテバが物陰から身を乗り出し、Bの頭上にあるパイプに向かって勢いよく弾丸を発射する。頭上のパイプに破裂音がし、穴からスモークが溢れBの視界を塞ぐ。その瞬間にアリサカが飛び出し、Bに向かって突入する。</div>
     <div class="line"><span class="dialogue char-suspicious-b">＃怪しい人物B「ぬアッ！」</span></div>
-    <div class="line stage">　アリサカが近くの別のパイプを引き抜き（気配ぎりで使ったようなもの）相手の頭上から脳天に勢いよく叩き込む。</div>
+    <div class="line stage">アリサカが近くの別のパイプを引き抜き相手の頭上から脳天に勢いよく叩き込む。</div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「おまけだ！」</span></div>
-    <div class="line stage">　Bは倒れ、腹部に三発鉛玉を撃ち込む。それを見てマテバはゆっくりと近ずく。</div>
-    <div class="line"><span class="dialogue char-mateba">＃マテバ「逮捕が目的だ？生きてる？そいつ？」</span></div>
+    <div class="line stage">Bは倒れ、腹部に三発鉛玉を撃ち込む。それを見てマテバはゆっくりと近づく</div>
+    <div class="line"><span class="dialogue char-mateba">＃マテバ「逮捕が目的だぜ？生きてる？そいつ？」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「案外タフだな。まだ脳波が送られてきている。寝てるだけだ。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「そうか……ならよかった。やめてくれって、脳天狙いの攻撃は。見てる方はヒヤヒヤする」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「自分が死ぬか相手が死ぬかをコイントスと優しさで決める奴はいないだろ？」</span></div>
@@ -496,27 +573,25 @@
     <div class="line"><span class="dialogue char-kacho">＃課長「Good！いい返事だ。10分後にミーティングだ。遅れるなよ。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「イエッサー！」</span></div>
     <div class="line stage">通話パート終了</div>
-    <div class="line stage">　コードを外す。視線を隣に移すとアリサカが倒れた男の首に腰から伸ばしたコードを差し込んでいる。</div>
+    <div class="line stage">コードを外す。視線を隣に移すとアリサカが倒れた男の首に腰から伸ばしたコードを差し込んでいる。</div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「直接脳波解析とは、感心しないな。」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「ほらよっ！少し気になってな。」</span></div>
     <div class="line stage">＃アリサカがマテバにBの使っていた銃を投げ渡す。</div>
-    <div class="line"><span class="dialogue char-mateba">＃マテバ「これは……国防軍の……いや違う。こんな型番見たことない。何者だ？そいつ？」</span></div>
-    <div class="line"><span class="dialogue char-arisaka">＃アリサカ「そいつはイースタシア連邦軍の記念物だ。この事件何か匂うぞ。」</span></div>
+    <div class="line"><span class="dialogue char-mateba">＃マテバ「これは……国防軍の……いや？違う。こんな型番見たことない。何者だ？そいつ？」</span></div>
+    <div class="line"><span class="dialogue char-arisaka">＃アリサカ「そいつは連邦の記念物だ。この事件何か匂うぞ。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「身元は？」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「試してみる。」</span></div>
-    <div class="line stage">　シンセイザーのような効果音がなる。</div>
-    <div class="line"><span class="dialogue char-arisaka">＃アリサカ「ダメだな。脳波があるのに圏外だ。これじゃ身元も何にもわからん。コイツァ何か裏で噛んでるぞ」</span></div>
-    <div class="line"><span class="dialogue char-mateba">＃マテバ「別に何が噛んでようと、拳ぶつけて歯折れば何も噛めなくなる。」</span></div>
+    <div class="line stage">シンセイザーのような効果音がなる。</div>
+    <div class="line"><span class="dialogue char-arisaka">＃アリサカ「ダメだな。脳波があるのに圏外だ。これじゃ身元も何もわからん。コイツァ何か裏で噛んでるぞ」</span></div>
+    <div class="line"><span class="dialogue char-mateba">＃マテバ「別に何が噛んでようと、ぶん殴って歯折れば何も噛めなくなる。」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「そうだな。我々が成敗しない限り、これでは国民は安心して眠れないと言う訳だ。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「長引きそうだ。ところで仕事終わりにどう？」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「悪いね、仕事が終われば次の仕事だ。君だけでどうぞ。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「ヒデー」</span></div>
-    <div class="line stage">　アリサカが注意深くスキャナーを観察し、暗転する。</div>
-
-    <div class="chapter">二章</div>
-
+    <div class="line stage">アリサカが注意深くスキャナーを観察し、暗転する。</div>
+    <div class="chapter" id="ch2">二章</div>
     <div class="line stage">中央の大型機械（初回で話していた舞台の中央にも扉をつける構想より）が緑の光を散らす。それが消えると全体照明がつく。機械から2人が出てくる（この際に機械からスモークみたいなのを出してもかっこいいかも）。この時には服装（防弾ジャケットなどがなくなっているイメージ）が多少ラフになっており、銃も携帯していない。機械の左、下手側には課長が座っている。</div>
-    <div class="line"><span class="dialogue char-kacho">＃課長「ご苦労だった。犯人の身元の調査は、軍の情報部隊に調査を回しておいてた。今頃、アカウント情報が真っ裸にされた頃だろう。」</span></div>
+    <div class="line"><span class="dialogue char-kacho">＃課長「ご苦労だった。犯人の身元の調査は、軍の情報部隊に調査を回しておいた。今頃、アカウント情報が真っ裸にされた頃だろう。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「俺はそれだきゃごめんだね」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「第六か、クソッタレの犯罪者にはお似合いのベビーカーだな！」</span></div>
     <div class="line"><span class="dialogue char-kacho">＃課長「私語をつつしめ。とにかく今の所わかっていることは、犯人がログインしていると思われる場所も、彼が何者であるかも不明であるということだ。」</span></div>
@@ -544,7 +619,7 @@
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「悪い、後できつく言っておく。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「おいおい！？俺までかよ！？」</span></div>
     <div class="line"><span class="dialogue char-kacho">＃課長「まぁいい、続けよう。とにかく我々はネクサスを通してスパイの情報を掴む。企業の持つ監視映像を洗いざらい調べ、スパイが何をしようとしていたのか知るのが任務だ。作戦実行部隊は我々SNG部隊一課。詳細は10分後に送信、15分後に作戦行動を開始する以上。」</span></div>
-    <div class="line"><span class="dialogue char-arisaka">＃アリサカ</span><span class="dialogue char-mateba">＃マテバ「了解！」</span></div>
+    <div class="line"><span class="dialogue char-arisaka">＃アリサカ＃マテバ「了解！」</span></div>
     <div class="line stage">課長が上手から退場する。</div>
     <div class="line"><span class="dialogue char-nemo">＃ネモ「ねえねえ！マテバさん！僕最近結構仕事できるようになったんですよ！課長もお茶を入れるは上手くなったて！」</span></div>
     <div class="line stage">ネモは投影を消し、マテバの方へ向く。課長は上手から出ていく。</div>
@@ -558,11 +633,10 @@
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「スギウラただいま現着しました！……課長はどこでしょうか。ミーティングがあると言っておられましたが。」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「遅い、ミーティングはすでに終わっている。時間は守りたまえよ。」</span></div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「す、すみません。そこで道に迷ったお婆さんがいて。」</span></div>
-    <div class="line"><span class="dialogue char-arisaka">＃アリサカ「人助けは構わんが、もし遅れるなら伝えてくれ。君も旧式の端末はあるのだろう？」</span></div>
-    <div class="line stage">スマホのような装置を見せびらかす。</div>
+    <div class="line"><span class="dialogue char-arisaka">＃アリサカ「人助けは構わんが、もし遅れるなら伝えてくれ。君も旧式の端末はあるのだろう？」スマホのような装置を見せびらかす。</span></div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「す、すみません。昔からネクサスに入り浸っていたもので。旧型の液晶端末はほとんど触ったことがなくて……」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「これが若者だ。アリサカフジン。」</span></div>
-    <div class="line"><span class="dialogue char-arisaka">＃アリサカ「覚悟ができての発言ととっていいいのだな。それが紳士の発言だという認識を持っていると。」</span></div>
+    <div class="line"><span class="dialogue char-arisaka">＃アリサカ「覚悟ができての発言ととっていいのだな。それが紳士の発言だという認識を持っていると。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「あ、ちが？！口が滑ったんだ！」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「滑った？本心から出た言葉であると。そう認めるわけだな？？」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「あ、いえ、その、……」</span></div>
@@ -582,9 +656,7 @@
     <div class="line"><span class="dialogue char-nexus">＃ネクサス「認証開始。軍事警察　ネクサス治安維持部　第1課、マテバ捜査官、アリサカ捜査官、スギウラ捜査官の脳波と照合しました。国家ネクサス特例法に基づき、捜査官の銃器、その他武装の携帯を許可します。精神機能の主用部分を転送します。」</span></div>
     <div class="line stage">暗転し緑の光が飛び散る。それも消える。</div>
     <div class="line"><span class="dialogue char-nexus">＃ネクサス「……ようこそ仮想空間ネットワーク　ネクサスへ。我々はあなた方を歓迎します。」</span></div>
-
-    <div class="chapter">三章</div>
-
+    <div class="chapter" id="ch3">三章</div>
     <div class="line stage">再び緑の光が散り、その後通常照明点灯。（この際にガヤガヤした環境音見たいのを流したり、下手、上手から変な被り物したりした一般通過アバターを右から左へ左から右へと歩かせると仮想世界感が強められる気がします。）下手から3人がでてくる。マテバはコードを手に巻きつけたデバイスに差し込んでいる。</div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ『3番ブロックに到着した。周囲には怪しい人影なし。』</span></div>
     <div class="line"><span class="dialogue char-kacho">＃課長『わかった。ここで電脳を切るぞ。これ以上先は企業の警備も厳しくなる。怪しまれてはたまらん。』</span></div>
@@ -604,13 +676,13 @@
     <div class="line stage">＃アリサカが懐に手を入れ、取り出した拳銃で腹部に射撃、そのまま腹に膝蹴りを入れ、警備員がよろめきながら上手に後退、そこに残り2人（B、C）の警備員が来てそのうちの1人がAを支える。Aが持ち直し、自立して立つ。</div>
     <div class="line"><span class="dialogue char-guard-a">＃警備員A「お、お前たち何者だ？！」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「俺1人で3人やれたら流石にデート考えてくれよ？」</span></div>
-    <div class="line"><span class="dialogue char-arisaka">＃アリサカ「残念なことにそのうちの1人は私が削っちまてる。」</span></div>
+    <div class="line"><span class="dialogue char-arisaka">＃アリサカ「残念なことにそのうちの1人は私が削っちまってる。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「じゃ、クールなところを見せなきゃな。ここはまかせてくれ。」</span></div>
     <div class="line"><span class="dialogue char-guard-a">＃警備員A「だからお前ら何者だ！？」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「邪魔すんな！耳と目にくそ詰まってんのか？！今先輩と喋ってんだろうが！」</span></div>
     <div class="line stage">マテバがAに射撃、Aがマテバに射撃</div>
     <div class="line stage">マテバがローリング、アリサカが姿勢を屈めながら走り遮蔽物に隠れる。</div>
-    <div class="line stage">Aは肩に被弾を負い、倒れる。B、Cが遮蔽物に隠れライフルを撃つ。マテバが顔だけだし射撃、Bに当てる。そのご再び遮蔽物に隠れてリロード。遮蔽物から腕だけ出して威嚇射撃、相手の射撃音が聞こえなくなったところ、遮蔽物から飛び出し、警棒で頭部に打撃。</div>
+    <div class="line stage">Aは肩に被弾を負い、倒れる。B、Cが遮蔽物に隠れライフルを撃つ。マテバが顔だけだし射撃、Bに当てる。その後再び遮蔽物に隠れてリロード。遮蔽物から腕だけ出して威嚇射撃、相手の射撃音が聞こえなくなったところ、遮蔽物から飛び出し、警棒で頭部に打撃。</div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「ふー、これでどうでっ」</span></div>
     <div class="line"><span class="dialogue char-guard-a">＃警備員A「ま、まだ！」</span></div>
     <div class="line stage">Aが倒れながらマテバに銃口を向けているところをアリサカが射撃。</div>
@@ -619,18 +691,16 @@
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「ま、アリじゃないか？食事ぐらいは気が乗ったら構わんよ。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「マジかよ！？今日ならギリ、テンションが天国突き抜けるぜ！」</span></div>
     <div class="line stage">『ジリリリリリリリリリっ』と音が鳴る。</div>
-    <div class="line stage">　マテバがコードを腕の装置に差し込む。</div>
-    <div class="line"><span class="dialogue char-mateba">＃マテバ「こっちは終わった。見えてるか？」</span></div>
-    <div class="line stage">手を振る</div>
+    <div class="line stage">マテバがコードを腕の装置に差し込む。</div>
+    <div class="line"><span class="dialogue char-mateba">＃マテバ「こっちは終わった。見えてるか？」手を振る</span></div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ『もちろんです！こちらも索敵が終わりました。今日は警備が緩い日だったらしくこれ以上の人員はないかと』</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「おうよ！警備会社で本社の警備がスカスカなのはイケてるジョークだな？とりあえず正面玄関で合流だ。」</span></div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ『了解です！』</span></div>
-    <div class="line stage">腕を元の形にし下ろす。</div>
+    <div class="line stage">腕を元の形にし、下ろす。</div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「後何人だって？」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「血の気が多い、警備はもうこれで終わりだ。警備会社の警備と警備担当者の脳みそは多分あんまりブツが詰まってねぇよ。」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「張り合いがないな。面白くもない、行くぞ。」</span></div>
     <div class="line stage">2人が下手に向かいながら暗転</div>
-
     <div class="line stage">照明がつきアリサカとマテバが下手から入り、反対の上手からスギウラが入ってくる。</div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「これで後は開けゴマだな」</span></div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「はい、パスキーはすでにネモから送られて来ました。一応皆さんにも共有しておきますね。」</span></div>
@@ -645,7 +715,7 @@
     <div class="line"><span class="dialogue char-mateba">＃マテバ「先輩！」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「警備じゃないな？！新手だ！貴様ら何者だ？！」</span></div>
     <div class="line stage">軍人たちは口を開かない。両者睨み合っていると。</div>
-    <div class="line"><span class="dialogue char-nambu">＃ナンブ「ふーーーーはははは！」</span></div>
+    <div class="line"><span class="dialogue char-nambu">＃ナンブ「フーーーーハハハハハ！」</span></div>
     <div class="line stage">舞台裏から大きな高笑いが聞こえる。すると上手からマントを羽織り、同じく仮面をつけた軍服の男が出てくる。</div>
     <div class="line"><span class="dialogue char-nambu">＃ナンブ「見つけたぞ！裏切り者！愚弄者！反逆者！軍警の皮を被った狐どもが！」</span></div>
     <div class="line stage">その男は拳銃の先に刀のついた武器を3人に向ける。（武器のイメージが難しい人は試製拳銃付軍刀で調べよう！）</div>
@@ -655,13 +725,12 @@
     <div class="line"><span class="dialogue char-nambu">＃ナンブ「聞かれたなら名乗ろう！」</span></div>
     <div class="line stage">ナンブは右の片足で立ち、両腕をYの字にする。</div>
     <div class="line"><span class="dialogue char-nambu">＃ナンブ「我が名は！」</span></div>
-    <div class="line stage">　今度は左足を前に出し、両腕を腕の前でクロスさせ、軍刀を振り回しながら、足を横に大きく開き、刀と視線を上にむけ……</div>
-    <div class="line stage">　と、ものすごい独特なポーズを素早く切り替える。</div>
-    <div class="line"><span class="dialogue char-nambu">＃ナンブ「第六情報化部隊隊長！英傑にして！鉄血にして！高潔である！……ナンブキジロウ！……ブワァ！」</span></div>
-    <div class="line stage">ブワァ！に合わせて自分でマントを投げ、演出する。（⚠︎「！」が挟まるたびにポーズを変えています。）</div>
+    <div class="line stage">今度は左足を前に出し、両腕を腕の前でクロスさせ、軍刀を振り回しながら、足を横に大きく開き、刀と視線を上にむけ……</div>
+    <div class="line stage">と、ものすごい独特なポーズを素早く切り替える。</div>
+    <div class="line"><span class="dialogue char-nambu">＃ナンブ「第六情報化部隊隊長！英傑にして！鉄血にして！高潔である！……ナンブキジロウ！……ブワァ！」ブワァ！に合わせて自分でマントを投げ、演出する。（⚠︎「！」が挟まるたびにポーズを変えています。）</span></div>
+    <div class="line"><span class="dialogue char-mateba">＃マテバ「……」＃アリサカ「……」＃スギウラ「……」＃部下A＃部下B、「……」</span></div>
     <div class="line"><span class="dialogue char-nambu">＃ナンブ「ちなみに階級は!この若さで！中佐である！」</span></div>
-    <div class="line"><span class="dialogue char-buika-c">＃部下C（少尉）「かっこいい！！麗しい！！素晴らしい！！」</span></div>
-    <div class="line stage">部下Dが大きく頷きながら手を叩き、その後そのほかの部下がまばらに手を叩く。</div>
+    <div class="line"><span class="dialogue char-buika-c">＃部下C（少尉）「かっこいい！！麗しい！！素晴らしい！！」部下Dが大きく頷きながら手を叩き、その後そのほかの部下がまばらに手を叩く。</span></div>
     <div class="line stage">3人は唖然とする。それ以外言うことは無い。</div>
     <div class="line"><span class="dialogue char-nambu">＃ナンブ「そして我が精鋭の第六部隊が貴様ら狐どもに鉄槌を下すのだ！貴様らは愚弄したのだ！我らが守るべき唯一の秘宝！国家を！国民を！……二つか……守るべき二つの秘宝！国家を！国民を！法を！……三つか……守るべき三つの秘宝！国家を！国民を！法を！ワンちゃんを！……えええぃ！とにかく貴様らは我々の……たくさんとその他の宝を！守るべきものを傷つけようと言うのだろう！」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「まて！まず俺たちは何もしていない！それこそ守ろうとするのは同じものだ！」</span></div>
@@ -672,24 +741,22 @@
     <div class="line"><span class="dialogue char-nambu">＃ナンブ「正体を表したな！狐風情が我ら精鋭に勝てると思うなよ！この神の剣＜ナンブセイバー＞のサビにしてくれるは！」</span></div>
     <div class="line stage">アリサカが南部を蹴飛ばし、</div>
     <div class="line"><span class="dialogue char-nambu">＃ナンブ「ぬぁ！ぁぁっぁぁぁっぁぁ！」</span></div>
-    <div class="line stage">　そのまま上手から舞台裏に退場。それを追うようにスギウラと後ろから上手側の兵士が付いていく。</div>
-    <div class="line"><span class="dialogue char-nambu">＃ナンブ「追え！逃すな！」</span></div>
-    <div class="line stage">ナンブも退場</div>
-    <div class="line stage">マテバが下手の兵士（仮に二名とする）にむけ射撃、それを兵士A、Bは回避。</div>
-    <div class="line stage">　部下Aは武器を通常の軍刀に切り替え、マテバに突っ込む。Bはそれを援護するために射撃。それをマテバは警棒で流し、逆にAに突っ込む。Aが振り下ろした刀を回避し、Aの動きを封じる。それを見てBが射撃、マテバはAを盾にして、（Bの打った弾丸はAに直撃）Bに射撃。兵士2人は倒れ、マテバがコードを機械に差し込む。</div>
+    <div class="line stage">そのまま上手から舞台裏に退場。それを追うようにスギウラと後ろから上手側の兵士が付いていく。</div>
+    <div class="line"><span class="dialogue char-nambu">＃ナンブ「追え！逃すな！」ナンブも退場</span></div>
+    <div class="line stage">マテバが下手の兵士（仮に二名とする）にむけ射撃、それを部下A、Bは回避。</div>
+    <div class="line stage">部下Aは武器を通常の軍刀に切り替え、マテバに突っ込む。Bはそれを援護するために射撃。それをマテバは警棒で流し、逆にAに突っ込む。Aが振り下ろした刀を回避し、Aの動きを封じる。それを見てBが射撃、マテバはAを盾にして、（Bの打った弾丸はAに直撃）Bに射撃。兵士2人は倒れ、マテバがコードを機械に差し込む。</div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「課長！第六からの襲撃だ！」</span></div>
-    <div class="line"><span class="dialogue char-kacho">＃課長「わかっている！こちらでもだ奴ら軍警の本部に戦車砲を向けてあがる。本部自体を武力制圧するつもりだ！」</span></div>
+    <div class="line"><span class="dialogue char-kacho">＃課長「わかっている！こちらでもだ奴ら軍警の本部に戦車砲を向けてやがる。本部自体を武力制圧するつもりだ！」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「リアルでの攻撃！花火大会にしちゃ唐突だな！？」</span></div>
     <div class="line"><span class="dialogue char-kacho">＃課長「そうだ！現実でだ！本部は人手が足りん！私もこれから武器を持って防衛に回ることになる。故にこちらからの指示はこれ以上不可能だ！撤退しろ！」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「いや、このまま行く。」</span></div>
     <div class="line"><span class="dialogue char-kacho">＃課長「何！？やめろ！これ以上は危険だ！」</span></div>
-    <div class="line"><span class="dialogue char-mateba">＃マテバ「奴ら施設周辺で待っていたということは奴ら俺たちが情報を取りに来るのを知ってあがる！でかい怪物は奴らだ！ただしバケモノは目覚めたばかりで、頭の数も足りてない。今行かなければ手遅れになる！」</span></div>
+    <div class="line"><span class="dialogue char-mateba">＃マテバ「奴ら施設周辺で待っていたということは奴ら俺たちが情報を取りに来るのを知ってやがる！でかい怪物は奴らだ！ただしバケモノは目覚めたばかりで、頭の数も足りてない。今行かなければ手遅れになる！」</span></div>
     <div class="line"><span class="dialogue char-kacho">＃課長「……わかった。だが安全を第一にしろ。今一課の人員を失えばSNG、国家がどうなるか確証を持てん！」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「了解！俺はこのまま個人で施設に侵入し、中を制圧、パスキーで正面扉を開く。そう先輩とスギウラに伝えてくれ！」</span></div>
     <div class="line"><span class="dialogue char-kacho">＃課長「分かった！お前のやるべきことを成し遂げろよ。」</span></div>
-    <div class="line"><span class="dialogue char-mateba">＃マテバ「？了解！」</span></div>
+    <div class="line"><span class="dialogue char-mateba">＃マテバ「了解！」</span></div>
     <div class="line stage">マテバは下手の舞台裏に走り出し暗転</div>
-
     <div class="line stage">時間に余裕があるver</div>
     <div class="line stage">課長に連絡し暗転した後</div>
     <div class="line stage">下手から先輩とスギウラが入ってくる。</div>
@@ -698,24 +765,24 @@
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「はい！」</span></div>
     <div class="line stage">スギウラが1人に対し射撃、アリサカがもう1人に撃つ。EFが倒れる。</div>
     <div class="line stage">上手からナンブと部下Cが登場</div>
-    <div class="line"><span class="dialogue char-nambu">＃ナンブ「ふん、なかなかやるじゃないか！我が精鋭騎士を撃つとはな！だがこのっ」</span></div>
+    <div class="line"><span class="dialogue char-nambu">＃ナンブ「ふん、なかなかやるじゃないか！我が精鋭騎士を討つとはな！だがこのっ」</span></div>
     <div class="line stage">アリサカが撃つ。</div>
     <div class="line"><span class="dialogue char-nambu">＃ナンブ「このナンブキジロウが話しているのを邪魔したのか！？貴様？！」</span></div>
     <div class="line stage">飛び跳ねて避ける。</div>
     <div class="line"><span class="dialogue char-nambu">＃ナンブ「許さない！絶対に許さんぞ！」</span></div>
     <div class="line stage">ナンブが試製拳銃付軍刀で発砲2人が左右に分かれて避ける。2人が発砲、ナンブは姿勢を屈めて回避。</div>
     <div class="line"><span class="dialogue char-nambu">＃ナンブ「食らえ！我が正義を！」</span></div>
-    <div class="line stage">　スギウラの方に向かい蹴りを撃つ。スギウラは腕でそれを防ぐも吹き飛ばされ倒れる。</div>
+    <div class="line stage">スギウラの方に向かい蹴りを撃つ。スギウラは腕でそれを防ぐも吹き飛ばされ倒れる。</div>
     <div class="line"><span class="dialogue char-nambu">＃ナンブ「滅びのジャスティぃぃィィス！！」</span></div>
     <div class="line stage">次にトドメを刺そうと刀を振ろうとすると、</div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「ナンブ！こっちを見ろ！」</span></div>
-    <div class="line stage">　少尉と戦闘中のアリサカはもう1人を蹴り飛ばし、腹に発砲、命中、Cは倒れる。</div>
+    <div class="line stage">少尉と戦闘中のアリサカはもう1人を蹴り飛ばし、腹に発砲、命中、Cは倒れる。</div>
     <div class="line"><span class="dialogue char-nambu">＃ナンブ「少尉！」</span></div>
-    <div class="line stage">　ナンブは切り返し、Cの方へ駆け出す。</div>
-    <div class="line stage">　暗転、ナンブとCにスポットライトが当たる。ものすごい感動BGM、ナンブがCを抱える（屈んだままの上半身だけ支えるお姫様抱っこみたいなやつ。）。</div>
+    <div class="line stage">ナンブは切り返し、Cの方へ駆け出す。</div>
+    <div class="line stage">暗転、ナンブとCにスポットライトが当たる。ものすごい感動BGM、ナンブがCを抱える（屈んだままの上半身だけ支えるお姫様抱っこのようなイメージ。）。</div>
     <div class="line"><span class="dialogue char-nambu">ナンブ「少尉！死ぬな！少尉！貴君がここで倒れれば！私はどうやっていけば良いか！」</span></div>
     <div class="line"><span class="dialogue char-buika-c">＃部下C（少尉）「中佐！……ナンブ中佐！……あなたにはまだ成すべきことが残っている！違いますか？」</span></div>
-    <div class="line stage">アリサカはコードを差し込み会話をしてるようなそぶりを見せる。起き上がったスギウラがナンブの落とした軍刀を拾う。</div>
+    <div class="line stage">アリサカはコードを差し込み、会話をしているようなそぶりを見せる。起き上がったスギウラがナンブの落とした軍刀を拾う。</div>
     <div class="line"><span class="dialogue char-nambu">＃ナンブ「はっ！そうだ！私にはまだ使命が残っていた！だが、貴君を置いては行けんよ！貴君のような優秀で、秀才で、私の次くらいにイケメンな者を置いてはいけない！」</span></div>
     <div class="line stage">スギウラがこっそりとナンブの後ろへと歩みを進める。</div>
     <div class="line"><span class="dialogue char-buika-c">＃部下C（少尉）「我々第六はあなたに忠誠を捧げたもの！一心同体です！故にあなたが生きていれば私も生きているのと同様！生きて任務を完遂するのです！」</span></div>
@@ -733,18 +800,16 @@
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「了解です」</span></div>
     <div class="line stage">2人が上手から舞台裏へ行く。</div>
     <div class="line stage">暗転</div>
-
-    <div class="chapter">四章</div>
-
+    <div class="chapter" id="ch4">四章</div>
     <div class="line stage">上手側近くでマテバが観客側を背にして、しゃがみ込み、腰についたケーブルを機械（遮蔽物に使っていた大道具を機械に見立てて）に差し込む。（演技の表現を増やすため、腰に伸び縮みするケーブル見たいのをつけたい。鍵とかを止めるのに使う伸縮するやつみたいな）</div>
     <div class="line stage">（ハッキングするような効果音、シンセイザーのような音）</div>
-    <div class="line stage">（『ピコンっ』というそれが終わったことを示す音と同時に『ブウィン』という自動扉が開く音）</div>
+    <div class="line"><span class="dialogue char-other">（『ピコンっ』というそれが終わったことを示す音と同時に『ブウィン』という自動扉が開く音）</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「OK！代わりのデータを仕込んでやった。」</span></div>
     <div class="line stage">下手からアリサカとスギウラが入ってくる。</div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「よくやった。正面玄関も特に問題はない。スギウラ！ネモからのプレゼントをお見舞いしてやれ。」</span></div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「変わります！マテバさん！」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「よろしっく！」</span></div>
-    <div class="line stage">勢いよく機械から『シューっ」と音をたてプラグを抜き、アリサカの方へ後ろを向きながら下がる。そこにスギウラが入りこみ、自分のケーブルを差す。</div>
+    <div class="line"><span class="dialogue char-other">勢いよく機械から『シューっ」と音をたてプラグを抜き、アリサカの方へ後ろを向きながら下がる。そこにスギウラが入りこみ、自分のケーブルを差す。</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「あいつらは？」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「一応、頭のない頭と取り巻きは叩いたがどうにも少ない。引き際もいい。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「また突っかかってくる。奴ら一見間抜けだがバカじゃない。脳みそがしっかり詰まってる。てことでいいンだよな。」</span></div>
@@ -760,23 +825,22 @@
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「解析完了しました！ちょうどスパイと思われる人物が侵入した映像ありました。」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「よし！空間映像を投写しろ。」</span></div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「投写映像解像度99．2%、シンクロ制度安定、投写を始めます。」</span></div>
-    <div class="line stage">照明が暗転（この時は場面変えの点灯ではないため役者の場所はそのままにする）し、緑の光が（レーザーみたいなやつだとそれっぽい）飛び交い、『ピピピピピピピピピ』と電子音が鳴る。</div>
+    <div class="line"><span class="dialogue char-other">照明が暗転（この時は場面変えの点灯ではないため役者の場所はそのままにする）し、緑の光が（レーザーみたいなやつだとそれっぽい）飛び交い、『ピピピピピピピピピ』と電子音が鳴る。</span></div>
     <div class="line stage">それらが収まると、再び照明が点灯し下手から挙動不審な男（スパイ）が入ってくる。その男は周囲を見廻してからパソコン風の機械に右腕を挿し込む（右腕が機械的なものだと近未来感を演出できるかも）。</div>
     <div class="line stage">左腕でボタンなどの操作を画面を見ながら行う。それを後ろからマテバとアリサカが覗き込む。</div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「ええと、第四北九州基地、第三足立基地、第六馬島基地、九州の基地の情報か」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「九州、やはりイースタシアの回し者で間違いないな。こいつは。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「装備、人員、物資、どこまで持って行こうとしてるんだ。これじゃきっと元カノもバレちまう。」</span></div>
-    <div class="line"><span class="dialogue char-arisaka">＃アリサカ「そんなの何の役に立つんだ。家族構成から給料まで！？元カノどころか小学生の初恋もバレちまいそうだな。本当にドンぱちする気か？…おい待て」</span></div>
+    <div class="line"><span class="dialogue char-arisaka">＃アリサカ「そんなの何の役に立つんだ。家族構成から給料まで！？元カノどころか小学生の初恋もバレちまいそうだな。本当にドンパチする気か？…おい待て」</span></div>
     <div class="line stage">スパイがコンピュータに別の小型マシンを挿し込む。</div>
-    <div class="line"><span class="dialogue char-sugiura">＃スギウラ「先輩！核爆発の計算コードを確認しました！」</span></div>
-    <div class="line stage">コンピュータから機械音が鳴り響く。</div>
+    <div class="line"><span class="dialogue char-sugiura">＃スギウラ「先輩！核爆発の計算コードを確認しました！」コンピュータから機械音が鳴り響く。</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「バカな！？見間違いじゃないのか！？」</span></div>
-    <div class="line"><span class="dialogue char-arisaka">＃アリサカ「コイツッ、日本に核ミサイルが落ちた時の効果範囲を調べてやがる。」</span></div>
+    <div class="line"><span class="dialogue char-arisaka">＃アリサカ「コイツッ、日本に核ミサイルが落ちた時の効果範囲を調べてあがる。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「奴らただの戦争じゃない。核戦争。絶滅戦争をやるつもりなんだ！」</span></div>
     <div class="line stage">スパイがマシンのコードを抜く。</div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「……スギウラ！そこで止めろ！やつの保存した情報をコピーするんだ！」</span></div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「今送ります！」</span></div>
-    <div class="line stage">スパイが時間が止まったように動きを止める。スギウラは機械のボタンなどを操作し始める。</div>
+    <div class="line stage">スパイは時間が止まったように動きを止める。スギウラは機械のボタンなどを操作し始める。</div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「これもしかしなくても結構大問題！？」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「当たり前だ。そういうところがルーキーだってんだ。戦争でなくとも、少なくない数の死者が出るのは確実だ…スギウラ、私は先に情報通信局に向かい、内閣総理大臣にこの情報を伝える……こいつ（手に持っているUSB）でマテバともう一度調査をしておけ！役に立つシステムだ！」</span></div>
     <div class="line stage">アリサカがUSBのようなものをマテバに渡す　。</div>
@@ -798,22 +862,22 @@
     <div class="line"><span class="dialogue char-mateba">＃マテバ「他殺ではなく自殺？！」</span></div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「え…得た情報を送信した記録、動き一切ありません！」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「そんなバカなことがあるか！？もう一度洗い出せ！情報を得て死ぬ？！何がしたいんだ！？」</span></div>
-    <div class="line stage">スポットライトがマテバに当たり、他の照明が落ちる。（この時思考しているのを電子音の『ぴこぴこぴこ』みたいなので表すとものすごい速さで考えていることを表せられるかも）</div>
+    <div class="line"><span class="dialogue char-mateba">スポットライトがマテバに当たり、他の照明が落ちる。（この時思考しているのを電子音の『ぴこぴこぴこ』みたいなので表すとものすごい速さで考えていることを表せられるかも）</span></div>
     <div class="line stage">（マテバがスポットライト上で身振り手振りや動きを用いて話し始めるが、時間的な問題よりはぶく。）</div>
-    <div class="line"><span class="dialogue char-mateba">＃マテバ『やつは核ミサイルの情報をゲットして、国にその情報を伝えるひつようがある。ならどうしてもゲットした情報を自国に伝えるというワンステップは必要…。死ぬ前に情報を別の誰かに伝えなければならない…だがやつはそれをするふりすらも見せなかった…そうだ！…後から別のやつが俺たちみたいに空間映像を見て情報を知ることができる…その場合、怪しいのはやはり第六部隊！あいつらならネクサス内で武力を使って警備を無理やり突破して、空間映像を見ることができる…奴らが！…いや、だが待て、……それならなぜあいつらは俺たちになぜ銃を向けてきた？それにあいつらは先に攻撃を仕掛けず、連行することを目的としてた…それなら奴らの目的はスパイの情報ではなく、我々1課、SNG部隊そのもの…ならば唯一空間映像を見て、連邦に情報を送れるのは…」</span></div>
+    <div class="line"><span class="dialogue char-mateba">＃マテバ『やつは核ミサイルの情報をゲットして、国にその情報を伝える必要がある。ならどうしてもゲットした情報を自国に伝えるというワンステップは必要…。死ぬ前に情報を別の誰かに伝えなければならない…だがやつはそれをするふりすらも見せなかった… そうだ！…後から別のやつが俺たちみたいに空間映像を見て情報を知ることができる…その場合、怪しいのはやはり第六部隊！あいつらならネクサス内で武力を使って警備を無理やり突破して、空間映像を見ることができる…奴らが！…いや、だが待て、……それならなぜあいつらは俺たちに銃を向けてきた？それにあいつらは先に攻撃を仕掛けず、連行することを目的としてた…それなら奴らの目的はスパイの情報ではなく、我々1課、SNG部隊そのもの…ならば唯一空間映像を見て、連邦に情報を送れるのは…」</span></div>
     <div class="line stage">（この暗くなっている間にスパイ役は退場）</div>
     <div class="line stage">スポットライトが消え照明が戻る</div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「俺たちか…！いや違う！先輩だ！」</span></div>
     <div class="line stage">正面を見ていたマテバがスギウラの方を向き、機械に差し込まれたUSB向けて走り出す。</div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「スギウラ！そのUSBを早く抜くんだ！」</span></div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「えっ？！」</span></div>
-    <div class="line stage">機械から『バチィィィ！』という音と共に火花が激しく飛び散り、煙が噴き出す。</div>
+    <div class="line"><span class="dialogue char-other">機械から『バチィィィ！』という音と共に火花が激しく飛び散り、煙が噴き出す。</span></div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「ギャッ！」</span></div>
     <div class="line stage">スギウラは小爆発とともに後ろへ吹き飛ばされる。</div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「ええぃ！クソ！やられた！」</span></div>
     <div class="line stage">＃マテバはスギウラの刺さったままのコードを引き抜く。</div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「大丈夫か？！」</span></div>
-    <div class="line"><span class="dialogue char-sugiura">＃スギウラ「…っグ、はい、ギリギリで、す…ぁと少し遅ければ、」</span></div>
+    <div class="line"><span class="dialogue char-sugiura">＃スギウラ「…っグ、はい、ギリギリです、…あと少し遅ければ、」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「今鎮静プログラムを打ち込んでやる。」</span></div>
     <div class="line stage">マテバが腰のケーブルをステンの同じ装置に刺し込む。（シンセイザーのような効果音が響く）</div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「一体何が？」</span></div>
@@ -831,11 +895,10 @@
     <div class="line"><span class="dialogue char-mateba">＃マテバ「だからこそ、俺は…俺自身で…あの人を…」</span></div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「先輩…」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「悪い、…とりあえずここからでよう、…なっ！？」</span></div>
-    <div class="line stage">2人が立ち上がり、ドアの方（下手）へ向かおうとするとクロスソードを構えた人物とシールドトンファーをもつ人物が出てくる。肩には序盤で捕まった男と同じ色、マークが入ったターフを巻き付けている。</div>
-    <div class="line"><span class="dialogue char-mateba">＃マテバ「連邦からのお客さん、か、そう簡単には背中を追わせてくれないってわけだ。はっ…」</span></div>
-    <div class="line stage">マテバも銃を構え、スギウラの前に出ようとする…だがスギウラは逆にマテバを遮り前にでる。銃を取り出す。</div>
+    <div class="line stage">2人が立ち上がり、ドアの方（下手）へ向かおうとするとロングソードを構えた人物と刀をもつ人物が出てくる。肩には序盤で捕まった男と同じ色、マークが入ったターフを巻き付けている。</div>
+    <div class="line"><span class="dialogue char-mateba">＃マテバ「連邦からのお客さん、か、そう簡単には背中を追わせてくれないってわけだ。はっ…」マテバも銃を構え、スギウラの前に出ようとする…だがスギウラは逆にマテバを遮り前にでる。銃を取り出す。</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「スギウラ…」</span></div>
-    <div class="line"><span class="dialogue char-sugiura">＃スギウラ「僕は、僕が先輩の部下です…マテバさんの部下です！部下は上司の目指す道を阻むものを、倒さなければならない！先輩は…アリサカ先輩…アリサカ被疑者を捕まえに行ってください！倒せるかは…分かりません…ですが先輩がここを突破できる時間は…！」</span></div>
+    <div class="line"><span class="dialogue char-sugiura">＃スギウラ「僕は、僕は先輩の部下です…マテバさんの部下です！部下は上司の目指す道を阻むものを、倒さなければならない！先輩は…アリサカ先輩…アリサカ被疑者を捕まえに行ってください！倒せるかは…分かりません…ですが先輩がここを突破できる時間は…！」</span></div>
     <div class="line"><span class="dialogue char-nambu">＃ナンブ「ふーははハハハハハ！よく言ったぞ勇者少年よ！」</span></div>
     <div class="line stage">上手側から男が飛び出す</div>
     <div class="line"><span class="dialogue char-nambu">＃ナンブ「このナンブキジロウをも倒した武力の頂に立つ少年よ！」</span></div>
@@ -852,16 +915,15 @@
     <div class="line"><span class="dialogue char-nambu">＃ナンブ「ハーハハハッハ！」</span></div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「大丈夫ですよ。僕もそうやわじゃありません。やってみせます！」</span></div>
     <div class="line stage">マテバが頷く。</div>
-    <div class="line stage">マテバが下手の方へ走り出す。刀持ちの敵Aがそれを防ごうとマテバの方へ向かい、切り付けようとする。それをナンブの試製拳銃付軍刀（以後軍刀と略す）で防ぎ。Bが打ち付けようとする前にスギウラが発砲しそれを防ぐ。マテバが下手から退場し、左右が入れ替わる構図になる（下手側にスギウラたち。上手側にAB）</div>
+    <div class="line stage">マテバが下手の方へ走り出す。ロングソード持ちの敵Aがそれを防ごうとマテバの方へ向かい、切り付けようとする。それをナンブの試製拳銃付軍刀（以後軍刀と略す）で防ぎ。Bが切り付けようとする前にスギウラが発砲しそれを防ぐ。マテバが下手から退場し、左右が入れ替わる構図になる（下手側にスギウラたち。上手側にAB）</div>
     <div class="line"><span class="dialogue char-nambu">＃ナンブ「昨日の敵は今日のマブダチ！さぁ！行こう！相棒！」</span></div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「え？！あ、はい！」</span></div>
-
     <div class="line stage">時間があった場合の戦闘シーン</div>
-    <div class="line stage">敵がトンファーで攻撃よしようとし、ナンブは前に飛び出し、素早く軍刀を振り翳し、攻撃を弾く。その後ろから勢いよく敵に対し、右手側に飛び出しながらスギウラが発砲。飛び出した勢いで遮蔽物に隠れる。同時にナンブは後退、それを見てAはクロスソードを振り翳しながら弾を弾き、攻撃を仕掛け、ナンブとの打ち合いが始まる。それを援護するようにBはナンブへ再び攻撃を仕掛ける。</div>
+    <div class="line stage">敵が刀で攻撃しようとし、ナンブは前に飛び出し、素早く軍刀を振り翳し、攻撃を弾く。その後ろから勢いよく敵に対し、右手側に飛び出しながらスギウラが発砲。飛び出した勢いで遮蔽物に隠れる。同時にナンブは後退、それを見てAはクロスソードを振り翳しながら弾を弾き、攻撃を仕掛け、ナンブとの打ち合いが始まる。それを援護するようにBはナンブへ再び攻撃を仕掛ける。</div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「させるか！」</span></div>
     <div class="line stage">スギウラが二発うち、相手は盾部分でそれを防ぐ。</div>
-    <div class="line stage">　ースギウラの戦闘ー</div>
-    <div class="line stage">　スギウラは三発発砲しながら接敵する。相手はそれを飛びよけ、大きく振り翳し攻撃へと転じる。スギウラは姿勢を低くしながら引き金をひく。しかし、弾切れをおこし、相手のトンファーが深く打ち付けられる。後ろに倒れ、相手の攻撃が再び飛んでくる。横によけ、トドメを受けるのを避ける。Bが避けたために下手観客側へ退避、リロードする。</div>
+    <div class="line stage">ースギウラの戦闘ー</div>
+    <div class="line stage">スギウラは三発発砲しながら接敵する。相手はそれを飛びよけ、大きく振り翳し攻撃へと転じる。スギウラは姿勢を低くしながら引き金をひく。しかし、弾切れをおこし、相手のトンファーが深く打ち付けられる。後ろに倒れ、相手の攻撃が再び飛んでくる。横によけ、トドメを受けるのを避ける。Bが避けたために下手観客側へ退避、リロードする。</div>
     <div class="line stage">ーナンブの戦闘ー</div>
     <div class="line stage">ナンブはAと刀で打ち合う。</div>
     <div class="line"><span class="dialogue char-nambu">＃ナンブ「ふははははっは！いい！いいぞ！良き好敵手！」</span></div>
@@ -892,9 +954,7 @@
     <div class="line"><span class="dialogue char-nambu">＃ナンブ「そこまで連れて行こう！私に任せれば何も問題ない！黄金船＜ナンブシップ＞に乗った気持ちでいてくれ！」</span></div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「ありが……ございます。……先輩……」</span></div>
     <div class="line stage">二人は下手から退場し、暗転</div>
-
-    <div class="chapter">5章</div>
-
+    <div class="chapter" id="ch5">5章</div>
     <div class="line stage">オレンジ色の照明に変更。</div>
     <div class="line stage">下手側の壁にアリサカが寄りかかる。</div>
     <div class="line stage">上手からアリサカがゆっくりと歩いて入ってくる。</div>
@@ -913,27 +973,26 @@
     <div class="line"><span class="dialogue char-mateba">＃マテバ「……………大人しく捕まるというのは……」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「それは無理な話だな…」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「リアルでのゴタゴタが終われば、私は精神転移装置から無理やり引き出される。」</span></div>
-    <div class="line"><span class="dialogue char-mateba">＃マテバ「だから、今自首をすれば罪は軽く…………あっ、」</span></div>
-    <div class="line stage">目を逸らす。</div>
+    <div class="line"><span class="dialogue char-mateba">＃マテバ「だから、今自首をすれば罪は軽く…………あっ、」目を逸らす。</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「なんだわかっているじゃないか。これはシンプルな紛争誘致罪、大犯罪だ。大怪盗より有名人。どう足掻こうと死刑は免れられない。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「……何が言いたい……」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「それこそ本当にわかっているんだろう。」</span></div>
     <div class="line stage">腰から軍刀を取り出し、抜刀する。</div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「かつての独立戦争から私は戦いの中でしか生きられない。政府や国家による支配の秩序など、私の生きる世界ではない」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「わざと足をつけて、俺だけをここによこしたのは、俺とやり合うためか、」</span></div>
-    <div class="line stage">＃マテバに通常の弾丸と軍刀を投げ渡す。</div>
+    <div class="line stage">マテバに通常の弾丸と軍刀を投げ渡す。</div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「そうだ。本気でな。私にとってお偉いさんたちなんてのはどうでもいい。だが、戦争を起こす切り札を私が目の前で使うのなら、君はその腰のお飾りを抜くだろう。」</span></div>
-    <div class="line stage">＃マテバは腰から短刀を取り出し、地面に投げ捨てる。</div>
+    <div class="line stage">マテバは腰から短刀を取り出す。</div>
+    <div class="line stage">マテバは次のセリフを言いながら投げられた軍刀と実弾拳銃を客席側に蹴る</div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「素敵な誘いだが、俺の戦いは人を傷つけるものなんかじゃない。殺すものなんかじゃない！人を守るための正義の戦いだ！」</span></div>
-    <div class="line stage">マテバは足元に渡された武器を無視し、腰から非殺傷弾の籠った銃を取り出し、撃ちながら遮蔽物に身を隠そうと移動する。</div>
+    <div class="line stage">腰から非殺傷弾の籠った銃を取り出し、撃ちながら遮蔽物に身を隠そうと移動する。</div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「正義か、古臭いもんを持ち合わせてるんだな？」</span></div>
     <div class="line stage">＃アリサカは抜刀した刀で球を弾く、ゆっくりとマテバの隠れている所へ向かう。</div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「じゃああなたは、苦痛から逃れるためだけに戦うのか？！」</span></div>
-    <div class="line stage">マテバも飛び出し、銃を撃つが、やはり弾かれる。</div>
+    <div class="line stage">マテバも飛び出し、非殺傷拳銃を撃つがアリサカ軍胴によって弾き飛ばされるその後そのままの流れで短刀を抜きバトルシーンへ</div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「自分だけのために！そのために人を殺すのか？！」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「そうだ！私は！私のためにだけ戦う！自分のために生きる！」</span></div>
-    <div class="line stage">アリサカが足でマテバの銃を蹴り上げ落とさせる。アリサカはその隙にマテバの腹を切り付ける。</div>
-    <div class="line stage">アリサカの一撃で、マテバはアリサカの投げ渡した武器の元に吹き飛ばされる。</div>
+    <div class="line stage">アリサカが軍刀で短刀を払いその隙にマテバの腹を切りつける。マテバは先程客席側に蹴った実弾銃の付近に倒れる。そして</div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「……立て。誰のためでもない。自分のために立ち上がれ。」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「自分が戦うために、だ」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「…俺の理由は先輩のためだ。…俺は先輩を、あなたを救うつもりでここまで来た。俺ならあなたがしようとすることを止められるって。」</span></div>
@@ -943,14 +1002,14 @@
     <div class="line"><span class="dialogue char-mateba">＃マテバ「俺はあなたを……あなたをここで……殺さなくてはならないんだ。恐れていた悍ましいものを乗り越えるために。俺の、あなたを思うという心のために！」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「あなたにこれ以上人殺しをさせたくない、あなたに大量殺人の引き金を引かせたくないという俺の……独りよがりな思いのために」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「優しいんだな。……だがそれでいい……それだけでいい……それがいいんだ。殺すよ君を」</span></div>
-    <div class="line stage">マテバが銃と短刀を握り立ち上がり、短刀を抜刀する。</div>
+    <div class="line stage">マテバが銃を拾い立ち上がり、短刀を抜刀する</div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「今ならわかる、導きが。」</span></div>
     <div class="line stage">アリサカへと向かう。</div>
     <div class="line stage">アリサカは勢いよくマテバへ突っ込み、姿勢を低くし、逆に突っ込んでくるマテバの足元に蹴りを入れる。マテバはそれをジャンプでよけ、着地した瞬間に刀を振る。</div>
-    <div class="line stage">両者が軍刀と短刀で打ち合う。アリサカは攻撃をよけ、そのまま屈んだままの移動で先に落とした銃を拾い、発砲する。マテバは肩に被弾するが、近くの遮蔽物に飛び込み、追撃を防ぐ。</div>
-    <div class="line stage">その遮蔽物に向かうアリサカ。自分に鎮痛プログラムを打ち込み、アリサカが向かってきているのを確認し片手で短刀を振るう。接近してきたアリサカの拳銃を落とす。アリサカはすぐに軍刀を抜き、切り掛かる。マテバも短刀で応戦するが弾き飛ばされる。その隙をつき、切り掛かる。マテバは左手で刀を掴み止める。</div>
+    <div class="line stage">両者が軍刀と短刀で打ち合う。打ち合いながら位置を変え下手側ある遮蔽物に飛び込み、追撃を防ぐ。</div>
+    <div class="line stage">その遮蔽物に向かうアリサカ。アリサカが向かってきているのを確認し片手で短刀を振るう。接近してきたアリサカの拳銃を落とす。アリサカはすぐに軍刀を抜き、切り掛かる。マテバも短刀で応戦するが弾き飛ばされる。その隙をつき、切り掛かる。マテバは左手で刀を掴み止める。</div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「グッっっっっ……」</span></div>
-    <div class="line stage">それを見てアリサカは軍刀を放し、拳銃を拾うために後退する。</div>
+    <div class="line stage">それを見てアリサカは軍刀を放し、非殺傷弾入り拳銃を拾うために後退する。</div>
     <div class="line stage">マテバはすぐにアリサカが落とした銃を拾う。マテバが銃を向けるとすでにアリサカが銃（マテバが落とした非殺傷弾の込められている方）をこちらに向けており、発砲。マテバに当たるがそのまま向かう。</div>
     <div class="line stage">しかしアリサカは少し動揺し、再度発砲、こんどは姿勢を屈めてよけ、接近し、足元に蹴りを入れるが、今度は逆にアリサカが飛んで回避し、銃底で殴りつけようとする。しかしマテバ下方から発砲、腹部に複数の被弾を受け、よろよろと後退し、壁に倒れる。マテバはゆっくり向かう。アリサカも意識朦朧としながら銃を向けるが、</div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「こんなおもちゃじゃ無理だな。」</span></div>
@@ -972,9 +1031,7 @@
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「あぁ、…………今、少し、たった少しだけな、……楽になれた気がするよ。」</span></div>
     <div class="line"><span class="dialogue char-arisaka">＃アリサカ「ありがとう、マテバ。これで……よかったんだ。」</span></div>
     <div class="line stage">暗転し、銃声が一発響く。</div>
-
-    <div class="chapter">6章</div>
-
+    <div class="chapter" id="ch6">6章</div>
     <div class="line stage">ライトがつく。黄昏を思わせるオレンジの光が舞台を照らす。舞台の中心には課長が椅子に座っており、その前に2人の人物が立つ。もちろんマテバとスギウラだ。そこにはもう1人はいない。</div>
     <div class="line"><span class="dialogue char-kacho">＃課長「というわけだ。ネクサスにスパイがいたと分かれば、国民に心理的不安が広がる。故に今回の件でアリサカはネクサス内の犯罪に巻き込まれた事として処理する。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「……」</span></div>
@@ -985,7 +1042,7 @@
     <div class="line"><span class="dialogue char-kacho">＃課長「そう、彼女と約束したんだな。」</span></div>
     <div class="line stage">時計を見る。</div>
     <div class="line"><span class="dialogue char-kacho">＃課長「2人とも15分後に正門前に来い。仕事だ。昇進祝いのな。」</span></div>
-    <div class="line stage">2人「うっす/了解です。」</div>
+    <div class="line"><span class="dialogue char-other">2人「うっす/了解です。」</span></div>
     <div class="line stage">課長が席を立ち上手から出ようとする。</div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「課長！」</span></div>
     <div class="line stage">足を止め、振り返る。</div>
@@ -1000,7 +1057,7 @@
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「……」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「どうした？」</span></div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「いえ、本当にこれで終わりとは思えなくて……」</span></div>
-    <div class="line"><span class="dialogue char-mateba">＃マテバ「…まあな…相手さんも戦争を有利にするために今回の件に手を出したと思えば、もとから戦争をする気でいるんだろう。」</span></div>
+    <div class="line"><span class="dialogue char-mateba">＃マテバ「…まあな…相手さんも戦争を有利にするために今回の件に手を出したと思えば、もとから戦争をする気でいたんだろう。」</span></div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「戦争は起きるのですか？この先も、これからも」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「そうだ。だがな、俺はどんなサイクル自体にも終わりが来ると思う。昼と夜は繰り返す。だがそれも地球が存在する限りだ。戦争と平和も人が作った発明に過ぎない。黒電話みたいにずっとあとの未来では廃れた概念になっているかもしれない。」</span></div>
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「じゃあレトロマニアの人は厄介ですね。」</span></div>
@@ -1010,11 +1067,35 @@
     <div class="line"><span class="dialogue char-sugiura">＃スギウラ「先輩もなかなか執着しているように見えますよ。」</span></div>
     <div class="line"><span class="dialogue char-mateba">＃マテバ「うるせえ……とにかく課長が1人酒するのが可哀想だ。歳食った爺さんは寂しがり屋だからな。早く行ってやろう。」</span></div>
     <div class="line stage">2人も上手から退場する。部屋にはオレンジの光だけが残る。</div>
-
-    <div class="fin">Fin</div>
+    <div class="fin" id="fin">Fin</div>
   </div>
 
-  <script>
+  <!-- Bottom Navigation -->
+  <div id="bottom-bar">
+    <button id="pen-btn" class="bottom-icon" title="メモ挿入モード" onclick="toggleNoteMode()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 20h9"/>
+        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+      </svg>
+    </button>
+    <div class="chapter-nav">
+      <button class="ch-btn" onclick="goToChapter('ch1')" title="第1章">1</button>
+      <button class="ch-btn" onclick="goToChapter('ch2')" title="第2章">2</button>
+      <button class="ch-btn" onclick="goToChapter('ch3')" title="第3章">3</button>
+      <button class="ch-btn" onclick="goToChapter('ch4')" title="第4章">4</button>
+      <button class="ch-btn" onclick="goToChapter('ch5')" title="第5章">5</button>
+      <button class="ch-btn" onclick="goToChapter('ch6')" title="第6章">6</button>
+    </div>
+    <button id="save-btn" class="bottom-icon" title="メモを保存" onclick="saveNotes()">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+        <polyline points="17 21 17 13 7 13 7 21"/>
+        <polyline points="7 3 7 8 15 8"/>
+      </svg>
+    </button>
+  </div>
+
+<script>
     let currentUser = null;
     let notes = []; // {id, afterLineId, text, color, created}
     let noteMode = false;
@@ -1034,7 +1115,8 @@
         currentUser = username;
         document.getElementById('password-overlay').classList.add('hidden');
         document.getElementById('main-content').classList.add('visible');
-        document.getElementById('user-display').textContent = 'ユーザー: ' + currentUser;
+        const role = (currentUser === '監督') ? '【監督・全体メモ権限】' : '';
+        document.getElementById('user-display').textContent = 'ユーザー: ' + currentUser + ' ' + role;
         initLines();
         loadNotes();
         renderNotes();
@@ -1073,63 +1155,124 @@
     });
 
     // Stage direction hide
-    document.getElementById('hide-stage').addEventListener('change', function() {
-      if (this.checked) {
-        document.body.classList.add('hide-stage');
-      } else {
-        document.body.classList.remove('hide-stage');
-      }
-    });
+    const hideStageEl = document.getElementById('hide-stage');
+    if (hideStageEl) {
+      hideStageEl.addEventListener('change', function() {
+        if (this.checked) {
+          document.body.classList.add('hide-stage');
+        } else {
+          document.body.classList.remove('hide-stage');
+        }
+      });
+    }
 
     // Notes hide toggle
-    document.getElementById('hide-notes').addEventListener('change', function() {
-      if (this.checked) {
-        document.body.classList.add('hide-notes');
-      } else {
-        document.body.classList.remove('hide-notes');
-      }
-    });
+    const hideNotesEl = document.getElementById('hide-notes');
+    if (hideNotesEl) {
+      hideNotesEl.addEventListener('change', function() {
+        if (this.checked) {
+          document.body.classList.add('hide-notes');
+        } else {
+          document.body.classList.remove('hide-notes');
+        }
+      });
+    }
 
-    function getStorageKey() {
+    // ===== メモ管理（監督メモは全体共有） =====
+    const GLOBAL_KEY = 'tasogare_notes__global';
+    let privateNotes = [];
+    let globalNotes = [];
+
+    function isDirector() {
+      return currentUser === '監督';
+    }
+
+    function getPrivateKey() {
       return 'tasogare_notes_' + (currentUser || 'anonymous');
     }
 
     function loadNotes() {
+      // 常に監督（全体）メモを読み込む
       try {
-        const raw = localStorage.getItem(getStorageKey());
-        notes = raw ? JSON.parse(raw) : [];
+        const g = localStorage.getItem(GLOBAL_KEY);
+        globalNotes = g ? JSON.parse(g) : [];
       } catch (e) {
-        notes = [];
+        globalNotes = [];
+      }
+
+      // 自分のプライベートメモ（監督以外）
+      if (!isDirector()) {
+        try {
+          const p = localStorage.getItem(getPrivateKey());
+          privateNotes = p ? JSON.parse(p) : [];
+        } catch (e) {
+          privateNotes = [];
+        }
+      } else {
+        privateNotes = []; // 監督は全体メモのみ操作
       }
     }
 
     function saveNotes() {
       if (!currentUser) return;
       try {
-        localStorage.setItem(getStorageKey(), JSON.stringify(notes));
-        alert('メモを保存しました（ユーザー: ' + currentUser + '）');
+        if (isDirector()) {
+          localStorage.setItem(GLOBAL_KEY, JSON.stringify(globalNotes));
+          alert('監督メモを全体に保存しました（全員に表示されます）');
+        } else {
+          localStorage.setItem(getPrivateKey(), JSON.stringify(privateNotes));
+          alert('メモを保存しました（ユーザー: ' + currentUser + ' のみ表示）');
+        }
       } catch (e) {
         alert('保存に失敗しました: ' + e.message);
       }
     }
 
     function renderNotes() {
-      // Remove existing note elements
+      // 既存のメモ要素を削除
       document.querySelectorAll('.user-note').forEach(n => n.remove());
-      notes.forEach(note => {
-        const target = document.querySelector('[data-line-id="' + note.afterLineId + '"]');
-        if (target) {
-          const noteEl = document.createElement('div');
-          noteEl.className = 'line user-note';
-          noteEl.dataset.noteId = note.id;
-          noteEl.style.borderLeftColor = note.color || '#ff9800';
-          noteEl.style.color = note.color || '#e65100';
-          noteEl.innerHTML = '<div class="note-meta">📝 ' + (note.created || '') + ' by ' + currentUser + '</div>' +
-            escapeHtml(note.text) +
-            '<span class="note-delete" title="削除" onclick="deleteNote(\'' + note.id + '\')">×</span>';
-          target.after(noteEl);
-        }
+
+      // 監督メモ（全体）を先に描画
+      globalNotes.forEach(note => {
+        appendNoteElement(note, true);
       });
+
+      // 自分のプライベートメモ
+      privateNotes.forEach(note => {
+        appendNoteElement(note, false);
+      });
+    }
+
+    function appendNoteElement(note, isGlobal) {
+      const target = document.querySelector('[data-line-id="' + note.afterLineId + '"]');
+      if (!target) return;
+
+      const noteEl = document.createElement('div');
+      noteEl.className = 'line user-note' + (isGlobal ? ' global-note' : '');
+      noteEl.dataset.noteId = note.id;
+      noteEl.dataset.isGlobal = isGlobal ? '1' : '0';
+
+      if (!isGlobal && note.color) {
+        noteEl.style.borderLeftColor = note.color;
+        noteEl.style.color = note.color;
+      }
+
+      const author = note.author || (isGlobal ? '監督' : currentUser);
+      const badge = isGlobal ? '<span class="note-badge">監督</span>' : '';
+      const canDelete = isGlobal ? isDirector() : true;
+
+      let deleteBtn = '';
+      if (canDelete) {
+        const globalFlag = isGlobal ? 'true' : 'false';
+        deleteBtn = '<span class="note-delete" title="削除" onclick="deleteNote(\'' + note.id + '\',' + globalFlag + ')">×</span>';
+      }
+
+      noteEl.innerHTML =
+        '<div class="note-meta">' + badge + '📝 ' + (note.created || '') + ' by ' + author + '</div>' +
+        escapeHtml(note.text) +
+        deleteBtn;
+
+      target.after(noteEl);
     }
 
     function escapeHtml(text) {
@@ -1140,20 +1283,20 @@
 
     function toggleNoteMode() {
       noteMode = !noteMode;
-      const btn = document.getElementById('btn-note-mode');
-      const ind = document.getElementById('note-mode-indicator');
+      const pen = document.getElementById('pen-btn');
+      if (pen) {
+        if (noteMode) {
+          pen.classList.add('active');
+        } else {
+          pen.classList.remove('active');
+        }
+      }
       if (noteMode) {
-        btn.classList.add('active');
-        btn.textContent = 'メモ挿入モード ON';
-        ind.classList.add('active');
         document.querySelectorAll('#main-content .line:not(.user-note)').forEach(el => {
           el.classList.add('note-target');
           el.onclick = onLineClickForNote;
         });
       } else {
-        btn.classList.remove('active');
-        btn.textContent = 'メモ挿入モード';
-        ind.classList.remove('active');
         document.querySelectorAll('.note-target').forEach(el => {
           el.classList.remove('note-target');
           el.onclick = null;
@@ -1166,33 +1309,68 @@
       e.stopPropagation();
       const line = e.currentTarget;
       const lineId = line.dataset.lineId;
-      const text = prompt('この行の後にメモを挿入します。メモ内容を入力してください：');
+
+      const isGlobal = isDirector();
+      const promptMsg = isGlobal
+        ? '【監督メモ】この行の後に全体公開メモを挿入します。内容を入力してください：'
+        : 'この行の後にメモを挿入します（あなただけに表示）。内容を入力してください：';
+
+      const text = prompt(promptMsg);
       if (text === null || text.trim() === '') return;
-      const color = prompt('メモの色を入力（例: #e65100 または orange）:', '#e65100') || '#e65100';
+
+      let color = '#e65100';
+      if (!isGlobal) {
+        color = prompt('メモの色を入力（例: #e65100 または orange）:', '#e65100') || '#e65100';
+      }
+
       const note = {
         id: 'N' + Date.now() + Math.random().toString(36).slice(2, 6),
         afterLineId: lineId,
         text: text.trim(),
         color: color,
-        created: new Date().toLocaleString('ja-JP')
+        created: new Date().toLocaleString('ja-JP'),
+        author: currentUser
       };
-      notes.push(note);
+
+      if (isGlobal) {
+        globalNotes.push(note);
+        try { localStorage.setItem(GLOBAL_KEY, JSON.stringify(globalNotes)); } catch(e){}
+      } else {
+        privateNotes.push(note);
+        try { localStorage.setItem(getPrivateKey(), JSON.stringify(privateNotes)); } catch(e){}
+      }
       renderNotes();
-      // auto save
-      try { localStorage.setItem(getStorageKey(), JSON.stringify(notes)); } catch(e){}
     }
 
-    function deleteNote(id) {
+    function deleteNote(id, isGlobal) {
       if (!confirm('このメモを削除しますか？')) return;
-      notes = notes.filter(n => n.id !== id);
+
+      if (isGlobal) {
+        if (!isDirector()) {
+          alert('監督メモは監督のみ削除できます');
+          return;
+        }
+        globalNotes = globalNotes.filter(n => n.id !== id);
+        try { localStorage.setItem(GLOBAL_KEY, JSON.stringify(globalNotes)); } catch(e){}
+      } else {
+        privateNotes = privateNotes.filter(n => n.id !== id);
+        try { localStorage.setItem(getPrivateKey(), JSON.stringify(privateNotes)); } catch(e){}
+      }
       renderNotes();
-      try { localStorage.setItem(getStorageKey(), JSON.stringify(notes)); } catch(e){}
     }
 
     // Expose for onclick
     window.deleteNote = deleteNote;
     window.toggleNoteMode = toggleNoteMode;
     window.saveNotes = saveNotes;
+  
+    function goToChapter(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
   </script>
 </body>
 </html>
